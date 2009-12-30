@@ -7,13 +7,9 @@
     <%= f.label :text %><br />
     <%= f.text_field :text %>
   </p>
-  <p>
-    <%= f.label :url %><br />
-    <%= f.text_field :url %>
-  </p>
+    <%= f.hidden_field :url %>
   <p>
     <%= f.submit 'Create' %>
   </p>
 <% end %>
 
-<%= link_to 'Back', posts_path %>
