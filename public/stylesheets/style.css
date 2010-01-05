@@ -1,0 +1,33 @@
+body
+{
+  position:relative;
+}
+
+#board
+{
+  position: absolute;
+  width:630px;
+  left:50%;
+  margin-left: -315px;
+}
+
+h1
+{
+  text-align:center;
+}
+
+a:hover  img
+{
+  border: 3px solid orange;
+}
+
+a img
+{
+  border: 3px solid white;
+}
+
+.clear
+{
+  clear:both;
+  position:relative;
+}

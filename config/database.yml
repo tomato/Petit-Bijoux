@@ -39,10 +39,10 @@ test:
 
 production:
   adapter: mysql
-  encoding: utf8
-  reconnect: false
-  database: pb_production
-  pool: 5
-  username: root
-  password: 
-  socket: /tmp/mysql.sock
+  database: tomato_pb_production
+  username: tomato
+  password: tom2710
+  host: sqlreadwrite.brightbox.net
+
+
+
