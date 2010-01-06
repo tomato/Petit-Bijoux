@@ -8,7 +8,7 @@ require 'brightbox/passenger'
 set :application, "petitbijoux"
 
 # Primary domain name of your application. Used in the Apache configs
-set :domain, "tresbijoux.co.uk"
+set :domain, "www.tresbijoux.co.uk"
 
 ## List of servers
 server "tomato-001.vm.brightbox.net", :app, :web, :db, :primary => true
