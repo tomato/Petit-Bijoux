@@ -1,7 +1,7 @@
 %h1=image_tag 'Quirina.gif'
 #board
   -@posts.each do |post| 
-    =link_to( image_tag("http://www.shrinktheweb.com/xino.php?embed=1&inside=1&STWAccessKeyId=3ff7233b451952a&stwsize=lg&stwUrl=#{post.url}"), post_path(post))
+    =link_to( image_tag("http://www.shrinktheweb.com/xino.php?embed=1&inside=1&STWAccessKeyId=3ff7233b451952a&stwsize=lg&stwUrl=#{post.url}"), post.url)
 
 %p.clear= link_to 'Add to PetitBijoux', "javascript:(function(){f='#{ new_post_url }?url='+encodeURIComponent(window.location.href)+'&title='+encodeURIComponent(document.title)+'&v=5&';a=function(){if(!window.open(f+'noui=1&jump=doclose','PetitBijoux','location=yes,links=no,scrollbars=no,toolbar=no,width=550,height=550'))location.href=f+'jump=yes'};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})()"
 
