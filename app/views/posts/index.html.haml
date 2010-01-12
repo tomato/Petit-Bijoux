@@ -1,4 +1,10 @@
 %h1=image_tag 'Quirina.gif'
+#categories
+  =link_to "All", posts_path
+  %br
+  -@categories.each do |category|
+    =link_to category.name, posts_path(:id => category.id)
+    %br
 #board
   -@posts.each do |post| 
     =link_to( image_tag("http://www.shrinktheweb.com/xino.php?embed=1&inside=1&STWAccessKeyId=3ff7233b451952a&stwsize=lg&stwUrl=#{post.url}"), post.url)

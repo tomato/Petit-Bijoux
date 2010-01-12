@@ -2,7 +2,12 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.xml
   def index
-    @posts = Post.find(:all, :order => "id desc")
+    if(params[:id])
+      @posts = Post.find_all_by_category_id(params[:id],:order => "id desc") || []
+    else
+      @posts = Post.find(:all, :order => "id desc")
+    end
+    @categories = Category.all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -26,6 +31,7 @@ class PostsController < ApplicationController
   def new
     @post = Post.new
     @post.url = params[:url]
+    @categories = Category.all.map {|u| [u.name, u.id] }
 
     respond_to do |format|
       format.html # new.html.erb

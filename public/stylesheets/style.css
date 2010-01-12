@@ -3,6 +3,11 @@ body
   position:relative;
 }
 
+#categories
+{
+  float:left;
+}
+
 #board
 {
   position: absolute;
