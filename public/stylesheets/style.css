@@ -36,3 +36,24 @@ a img
   clear:both;
   position:relative;
 }
+
+.post
+{
+  display:inline-block;
+  position:relative;
+}
+
+span.edit
+{
+  float:left;
+  position:absolute;
+  top:135px;
+  left:160px;
+}
+
+span.edit a
+{
+  display:none;
+  color:black;
+  text-decoration:none;
+}
