@@ -42,6 +42,7 @@ class PostsController < ApplicationController
   # GET /posts/1/edit
   def edit
     @post = Post.find(params[:id])
+    @categories = Category.all.map {|u| [u.name, u.id] }
   end
 
   # POST /posts
@@ -69,7 +70,7 @@ class PostsController < ApplicationController
     respond_to do |format|
       if @post.update_attributes(params[:post])
         flash[:notice] = 'Post was successfully updated.'
-        format.html { redirect_to(@post) }
+        format.html { redirect_to(posts_path) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
