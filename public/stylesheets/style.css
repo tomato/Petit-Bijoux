@@ -63,3 +63,8 @@ a img
 }
 .left {float:left;}
 .right {float:right}
+
+#comments
+{
+  width:150px;
+}

@@ -7,9 +7,10 @@
   -@categories.each do |category|
     =link_to category.name, posts_path(:id => category.id)
     %br
+  #comments
 #board
   -@posts.each do |post| 
-    .post
+    .post{ :comment => post.text }
       .edit
         =link_to "Edit", edit_post_path(post), :class => 'left'
         =link_to("Delete ", { :action => "destroy", :id => post }, :confirm => "Are you sure you want to delete this article?", :method => :delete, :class => 'right')
