@@ -1,95 +1,51 @@
 class PostsController < ApplicationController
+  before_filter :authenticate_user!, :except => [:index, :show]
 
-  # GET /posts
-  # GET /posts.xml
   def index
-    #if(params[:id])
-    #  @posts = Post.find_all_by_category_id(params[:id],:order => "id desc") || []
-    #else
-      @posts = Post.find(:all, :order => "id desc")
-    #end
-    #@categories = Category.all
+    @posts = Post.find(:all, :order => "id desc", :limit => 100)
     @users = User.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @posts }
-    end
   end
 
-  # GET /posts/1
-  # GET /posts/1.xml
   def show
-    @posts = Post.find_all_by_user_id(params[:id])
-    #@categories = Category.all
+    @posts = Post.find_all_by_user_id(params[:id], :order => "id desc", :limit => 100)
     @users = User.all
-    @editable = current_user.id = params[:id]
+    @editable = current_user.id = params[:id] if user_signed_in?
     render :action => 'index'
-
   end
 
-  # GET /posts/new
-  # GET /posts/new.xml
   def new
     @post = Post.new
     @post.url = params[:url]
-    @categories = Category.all.map {|u| [u.name, u.id] }
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @post }
-    end
   end
 
-  # GET /posts/1/edit
   def edit
     @post = Post.find(params[:id])
-    @categories = Category.all.map {|u| [u.name, u.id] }
   end
 
-  # POST /posts
-  # POST /posts.xml
   def create
     @post = Post.new(params[:post].merge(:user_id => current_user.id))
-
-    respond_to do |format|
-      if @post.save
-        flash[:notice] = 'Post was successfully created.'
-        format.html { redirect_to(post_path(:id => current_user.id))}
-        format.xml  { render :xml => @post, :status => :created, :location => @post }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @post.errors, :status => :unprocessable_entity }
-      end
+    if @post.save
+      flash[:notice] = 'Post was successfully created.'
+      render :action => 'show'
+    else
+      render :action => "new" 
     end
   end
 
-  # PUT /posts/1
-  # PUT /posts/1.xml
   def update
     @post = Post.find(params[:id])
 
-    respond_to do |format|
-      if @post.update_attributes(params[:post].merge(:user_id => current_user.id))
-        flash[:notice] = 'Post was successfully updated.'
-        format.html { redirect_to(post_path(:id => current_user.id)) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @post.errors, :status => :unprocessable_entity }
-      end
+    if @post.update_attributes(params[:post].merge(:user_id => current_user.id))
+      flash[:notice] = 'Post was successfully updated.'
+      redirect_to(post_path(current_user.id)) 
+    else
+      render :action => "edit" 
     end
   end
 
-  # DELETE /posts/1
-  # DELETE /posts/1.xml
   def destroy
     @post = Post.find(params[:id])
     @post.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(posts_url) }
-      format.xml  { head :ok }
-    end
+    redirect_to(post_path(current_user.id)) 
   end
 end
