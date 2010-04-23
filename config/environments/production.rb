@@ -30,3 +30,5 @@ config.action_mailer.default_url_options = { :host => 'why.solittlecode.com' }
 ActionMailer::Base.smtp_settings = {
   :address  => "smtp-relay.brightbox.net",
   :port  => 25, 
+  :domain  => "brightbox.net"
+}
