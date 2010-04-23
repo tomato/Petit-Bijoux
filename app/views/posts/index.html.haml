@@ -1,19 +1,40 @@
 %h1=image_tag 'Quirina.gif'
 #categories
   = link_to 'Add to PetitBijoux', "javascript:(function(){f='#{ new_post_url }?url='+encodeURIComponent(window.location.href)+'&title='+encodeURIComponent(document.title)+'&v=5&';a=function(){if(!window.open(f+'noui=1&jump=doclose','PetitBijoux','location=yes,links=no,scrollbars=no,toolbar=no,width=550,height=550'))location.href=f+'jump=yes'};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})()"
-  %br
-  =link_to "All", posts_path
-  %br
-  -@categories.each do |category|
-    =link_to category.name, posts_path(:id => category.id)
+  %p
+    -if user_signed_in?
+      =link_to('Logout', destroy_user_session_path) if user_signed_in?
+      %br
+      =link_to('Edit registration', edit_user_registration_path) if user_signed_in?
+    -else
+      =link_to('Login', new_user_session_path)
+      %br
+      =link_to('Register', new_user_registration_path)  
+  -#%p
+    =link_to "All", posts_path
     %br
+    -@categories.each do |category|
+      =link_to category.name, posts_path(:id => category.id)
+      %br
+  %p
+    Click on links below to view users boards:
+    %br
+    =link_to 'all', posts_path
+    %br
+    -if user_signed_in?
+      =link_to 'me', post_path(:id => current_user.id)
+      %br
+    -@users.each do |u|
+      =link_to u.name, post_path(:id => u.id)
+      %br
   #comments
 #board
   -@posts.each do |post| 
     .post{ :comment => post.text }
-      .edit
-        =link_to "Edit", edit_post_path(post), :class => 'left'
-        =link_to("Delete ", { :action => "destroy", :id => post }, :confirm => "Are you sure you want to delete this article?", :method => :delete, :class => 'right')
+      -if @editable
+        .edit
+          =link_to "Edit", edit_post_path(post), :class => 'left'
+          =link_to("Delete ", { :action => "destroy", :id => post }, :confirm => "Are you sure you want to delete this article?", :method => :delete, :class => 'right')
         
       =link_to( image_tag("http://www.shrinktheweb.com/xino.php?embed=1&inside=1&STWAccessKeyId=3ff7233b451952a&stwsize=lg&stwUrl=#{post.url}"), post.url)
 

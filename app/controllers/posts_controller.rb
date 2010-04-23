@@ -1,13 +1,15 @@
 class PostsController < ApplicationController
+
   # GET /posts
   # GET /posts.xml
   def index
-    if(params[:id])
-      @posts = Post.find_all_by_category_id(params[:id],:order => "id desc") || []
-    else
+    #if(params[:id])
+    #  @posts = Post.find_all_by_category_id(params[:id],:order => "id desc") || []
+    #else
       @posts = Post.find(:all, :order => "id desc")
-    end
-    @categories = Category.all
+    #end
+    #@categories = Category.all
+    @users = User.all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -18,12 +20,12 @@ class PostsController < ApplicationController
   # GET /posts/1
   # GET /posts/1.xml
   def show
-    @post = Post.find(params[:id])
+    @posts = Post.find_all_by_user_id(params[:id])
+    #@categories = Category.all
+    @users = User.all
+    @editable = current_user.id = params[:id]
+    render :action => 'index'
 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @post }
-    end
   end
 
   # GET /posts/new
@@ -48,12 +50,12 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.xml
   def create
-    @post = Post.new(params[:post])
+    @post = Post.new(params[:post].merge(:user_id => current_user.id))
 
     respond_to do |format|
       if @post.save
         flash[:notice] = 'Post was successfully created.'
-        format.html { redirect_to(@post) }
+        format.html { redirect_to(post_path(:id => current_user.id))}
         format.xml  { render :xml => @post, :status => :created, :location => @post }
       else
         format.html { render :action => "new" }
@@ -68,9 +70,9 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
 
     respond_to do |format|
-      if @post.update_attributes(params[:post])
+      if @post.update_attributes(params[:post].merge(:user_id => current_user.id))
         flash[:notice] = 'Post was successfully updated.'
-        format.html { redirect_to(posts_path) }
+        format.html { redirect_to(post_path(:id => current_user.id)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
