@@ -37,12 +37,6 @@ test:
   password:
   socket: /tmp/mysql.sock
 
-production:
-  adapter: mysql
-  database: tomato_pb_production
-  username: tomato
-  password: tom2710
-  host: sqlreadwrite.brightbox.net
 
 
 
